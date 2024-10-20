@@ -1,0 +1,9 @@
+.copierignore
+.tasks-extra.toml
+CHANGELOG.md
+pyproject.toml
+src/cop-decoder/__cli__.py
+src/cop-decoder/_version.py
+src/cop-decoder/__init__.py
+tests/cop-decoder/test_cli.py
+.gitignore
