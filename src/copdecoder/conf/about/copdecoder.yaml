@@ -1,0 +1,6 @@
+_open_link_: False
+name: "COP Decoder"
+authors: "Young Joon Lee <entelecheia@hotmail.com>"
+description: "A tool for decoding and analyzing COP climate change discussions."
+homepage: "https://cop-decoder.jeju.ai"
+license: "MIT"
