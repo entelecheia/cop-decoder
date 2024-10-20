@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.31.0
+_commit: v0.32.0
 _src_path: gh:entelecheia/hyperfast-docker-template
 app_dirname: cop-decoder
 app_install_root: /workspace
@@ -38,6 +38,7 @@ project_description: COP Decoder is a powerful tool designed to decode and analy
     negotiations and agreements.
 project_license: MIT
 project_short_description: A tool for decoding and analyzing COP climate change discussions.
+restart_always: false
 ssh_host_port: 2341
 ssh_port: 22
 use_deploy_workflows: true
