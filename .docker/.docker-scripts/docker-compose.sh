@@ -22,7 +22,7 @@ $0 build -v base
 # declare arguments
 PROJECT_ID=${DOCKER_PROJECT_ID:-"default"}
 COMMAND="build"
-VARIANT=${IMAGE_VARIANT:-"base"}
+VARIANT=${IMAGE_VARIANT:-"dev"}
 RUN_COMMAND="bash"
 ADDITIONAL_ARGS=""
 
