@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cop-decoder"
-version = "0.0.0"
+version = "0.1.0"
 description = "A tool for decoding and analyzing COP climate change discussions."
 authors = ["Young Joon Lee <entelecheia@hotmail.com>"]
 license = "MIT"
@@ -100,6 +100,7 @@ tag_format = "v$version"
 [tool.semantic_release]
 branch = "main"
 version_toml = "pyproject.toml:tool.poetry.version"
+version_pattern = '.docker/docker.version:IMAGE_VERSION="{version}"'
 version_variable = "src/copdecoder/_version.py:__version__"
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"
