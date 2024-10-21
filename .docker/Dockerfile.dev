@@ -40,6 +40,9 @@ RUN mkdir -p $WORKSPACE_ROOT/projects
 WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
+# Copy the app source code from host into the image
+RUN mkdir -p $APP_SRC_DIR
+COPY . ./$APP_DIRNAME/
 # RUN pip install -r ./scripts/requirements-dev.txt
 
 # Sets the time zone within the container
