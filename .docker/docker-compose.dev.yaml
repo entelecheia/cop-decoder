@@ -26,7 +26,7 @@ services:
     image: $IMAGE_NAME:$IMAGE_TAG
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
-    
+    restart: unless-stopped
     # Sets tty to true if the container needs a pseudo-TTY
     tty: true
     stdin_open: true
@@ -77,6 +77,23 @@ services:
             - driver: nvidia
               device_ids: ["${CONTAINER_CUDA_DEVICE_ID}"]
               capabilities: [gpu]
+  neo4j:
+    image: neo4j:latest
+    hostname: gdelt-neo4j
+    ports:
+      - "7474:7474" # HTTP
+      - "7687:7687" # Bolt
+    environment:
+      - NEO4J_AUTH=neo4j/neo4j
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+    volumes:
+      - ${PWD}/workspace/neo4j/data:/data
+      - ${PWD}/workspace/neo4j/logs:/logs
+      - ${PWD}/workspace/neo4j/import:/var/lib/neo4j/import
+      - ${PWD}/workspace/neo4j/plugins:/plugins
+
 networks:
   default:
     # Sets the name of the default network and makes it external

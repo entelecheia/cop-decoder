@@ -1,6 +1,7 @@
 # working directory
 workspace/
 tmp/
+.Trash-*
 
 # hypothesis: https://github.com/HypothesisWorks/hypothesis
 .hypothesis/
@@ -12,6 +13,7 @@ node_modules/
 # Jupyter Notebook
 _build/
 _autosummary/
+.ipynb_checkpoints/
 
 # Python
 *.py[cod]
