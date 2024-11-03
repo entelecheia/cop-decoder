@@ -1,15 +1,14 @@
+import argparse
 import bz2
 import gzip
 import logging
-from typing import Generator, Optional, Dict, Set
-import xml.etree.ElementTree as ET
-from datetime import datetime
 import os
+import xml.etree.ElementTree as ET
+from typing import Dict, Generator, Tuple
+
+import requests
 from neo4j import GraphDatabase
 from tqdm import tqdm
-import requests
-import hashlib
-import argparse
 
 
 class WikidataLoader:
@@ -164,7 +163,7 @@ class WikidataLoader:
 
         return entity_data
 
-    def _create_entity_query(self, entity_data: Dict) -> str:
+    def _create_entity_query(self, entity_data: Dict) -> Tuple[str, Dict]:
         """Generate Cypher query for creating/updating an entity."""
         labels = {k: v for k, v in entity_data["labels"].items() if v}
         descriptions = {k: v for k, v in entity_data["descriptions"].items() if v}
@@ -177,7 +176,14 @@ class WikidataLoader:
             e.lastUpdated = datetime()
         """
 
-        return query
+        params = {
+            "id": entity_data["id"],
+            "type": entity_data["type"],
+            "labels": labels,
+            "descriptions": descriptions,
+        }
+
+        return query, params
 
     def _create_relationship_query(self, entity_id: str, claim: Dict) -> str:
         """Generate Cypher query for creating relationships between entities."""
@@ -240,7 +246,8 @@ class WikidataLoader:
         with self.driver.session() as session:
             # Create entities
             for entity_data in batch:
-                session.run(self._create_entity_query(entity_data), entity_data)
+                query, params = self._create_entity_query(entity_data)
+                session.run(query, params)
 
             # Create relationships
             for rel in relationships:
