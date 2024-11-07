@@ -9,15 +9,12 @@ class WikidataCentrality:
         self.sparql = SPARQLWrapper(self.endpoint)
         self.sparql.setReturnFormat(JSON)
 
-    def get_subgraph(
-        self, entity_id: str, depth: int = 2, max_nodes: int = 1000
-    ) -> list:
+    def get_subgraph(self, entity_id: str, max_nodes: int = 5000) -> list:
         """
         Fetch a subgraph around an entity using SPARQL
 
         Args:
             entity_id: Wikidata ID (e.g., 'Q937' for Albert Einstein)
-            depth: How many hops to traverse
             max_nodes: Maximum number of nodes to return
         """
         query = f"""
@@ -64,7 +61,7 @@ class WikidataCentrality:
 
     def calculate_centrality(self, entity_id: str) -> dict:
         """
-        Calculate PageRank and Eigenvector centrality for an entity
+        Calculate PageRank, Eigenvector, and Degree centrality for an entity
 
         Args:
             entity_id: Wikidata ID
@@ -80,6 +77,7 @@ class WikidataCentrality:
                 "entity_id": entity_id,
                 "pagerank": None,
                 "eigenvector": None,
+                "degree": None,
                 "node_count": 0,
                 "edge_count": 0,
             }
@@ -92,11 +90,13 @@ class WikidataCentrality:
         try:
             pagerank = nx.pagerank(G, alpha=0.85, max_iter=100)
             eigenvector = nx.eigenvector_centrality(G, max_iter=100)
+            degree = nx.degree_centrality(G)
 
             return {
                 "entity_id": entity_id,
                 "pagerank": pagerank.get(entity_id, None),
                 "eigenvector": eigenvector.get(entity_id, None),
+                "degree": degree.get(entity_id, None),
                 "node_count": G.number_of_nodes(),
                 "edge_count": G.number_of_edges(),
             }
@@ -107,10 +107,10 @@ class WikidataCentrality:
                 "entity_id": entity_id,
                 "pagerank": None,
                 "eigenvector": None,
+                "degree": None,
                 "node_count": G.number_of_nodes(),
                 "edge_count": G.number_of_edges(),
             }
-
 
 def main():
     # Initialize the centrality calculator
@@ -132,6 +132,7 @@ def main():
 
         print(f"PageRank: {centrality['pagerank']:.6f}")
         print(f"Eigenvector Centrality: {centrality['eigenvector']:.6f}")
+        print(f"Degree Centrality: {centrality['degree']:.6f}")
         print(f"Nodes in subgraph: {centrality['node_count']}")
         print(f"Edges in subgraph: {centrality['edge_count']}")
 
@@ -139,7 +140,6 @@ def main():
     df = pd.DataFrame(results)
     print("\nFinal Results:")
     print(df)
-
 
 if __name__ == "__main__":
     main()
