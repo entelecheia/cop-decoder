@@ -112,6 +112,7 @@ class WikidataCentrality:
                 "edge_count": G.number_of_edges(),
             }
 
+
 def main():
     # Initialize the centrality calculator
     wikidata = WikidataCentrality()
@@ -140,6 +141,7 @@ def main():
     df = pd.DataFrame(results)
     print("\nFinal Results:")
     print(df)
+
 
 if __name__ == "__main__":
     main()
